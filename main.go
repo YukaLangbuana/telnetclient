@@ -36,7 +36,7 @@ func NewOptions() *Options {
 	opt := Options{
 		Url:      os.Args[1],
 		Port:     "23",
-		Duration: time.Duration(30 * time.Second),
+		Duration: 30,
 	}
 
 	return &opt
@@ -61,7 +61,7 @@ func main() {
 	println("Connected!")
 	println("Sending packet for", opt.Duration.Seconds(), "s")
 	start := time.Now()
-	if time.Since(start) < opt.Duration {
+	for time.Since(start) < opt.Duration*time.Second {
 		conn.Write([]byte{65})
 		println("Heartbeat sent. Time since start", time.Since(start).Seconds())
 		time.Sleep(1 * time.Second)
