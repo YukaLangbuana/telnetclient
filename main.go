@@ -62,7 +62,11 @@ func main() {
 	println("Sending packet for", opt.Duration.Seconds(), "s")
 	start := time.Now()
 	for time.Since(start) < opt.Duration*time.Second {
-		conn.Write([]byte{65})
+		_, err := conn.Write([]byte{65})
+		if err != nil {
+			println("Error when writing to server. Exiting..")
+			return
+		}
 		println("Heartbeat sent. Time since start", time.Since(start).Seconds())
 		time.Sleep(1 * time.Second)
 	}
